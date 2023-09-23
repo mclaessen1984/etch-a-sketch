@@ -1,11 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+:root {
+    --bg-color: rgb(180, 247, 247);
+    --red: red;
+    --green: green;
+    --blue: blue;
+}
+
 * {
     font-family: 'Roboto', sans-serif;
 }
 
 body {
     height: 100vh;
+    background-color: var(--bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,10 +22,23 @@ body {
     padding: 0;
 }
 
+.container {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 .canvas {
     box-sizing: content-box;
     width: 800px;
     height: 800px;
+    margin-right: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -30,4 +51,22 @@ body {
 .grid-square {
     box-sizing: border-box;
     border: 1px solid gray;
+}
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px;
+    background-color: var(--bg-color);
+    font-size: 20px;
+    border: 3px solid black;
+    border-radius: 15px;
+}
+
+button span {
+    width: 20px;
+    height: 20px;
+    /* background-color: red; */
+    border-radius: 50%;
 }
