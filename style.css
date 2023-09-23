@@ -15,9 +15,19 @@ body {
 }
 
 .canvas {
+    box-sizing: content-box;
+    width: 800px;
+    height: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    /* gap: 1px; */
+    /* background-color: black; */
+    border: 10px solid black;
+}
+
+.grid-square {
     box-sizing: border-box;
-    width: 500px;
-    height: 500px;
-    background-color: black;
-    border: 5px solid midnightblue;
+    border: 1px solid gray;
 }
