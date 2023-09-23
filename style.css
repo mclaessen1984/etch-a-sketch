@@ -5,6 +5,9 @@
     --red: red;
     --green: green;
     --blue: blue;
+    --black: black;
+    --white: white;
+    --grey: grey;
 }
 
 * {
@@ -69,4 +72,20 @@ button span {
     height: 20px;
     /* background-color: red; */
     border-radius: 50%;
+}
+
+.rainbow-wheel {
+    background: conic-gradient(from 90deg,
+            violet,
+            indigo,
+            blue,
+            green,
+            yellow,
+            orange,
+            red,
+            violet);
+}
+
+.bw-gradient {
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(124,124,124,1) 50%, rgba(0,0,0,1) 100%);
 }
