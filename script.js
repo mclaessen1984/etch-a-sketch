@@ -214,6 +214,5 @@ function handleKeyPress(key) {
 }
 
 function getButtonElement(id) {
-    console.log(id);
     return document.querySelector(`#${id}`);
 }
