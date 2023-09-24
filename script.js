@@ -92,15 +92,16 @@ function getStylesheetVariable(name) {
 }
 
 function setSelectedColor(element) {
-    const color = element.target == undefined ? element : element.target;
+    const target = element.target == undefined ? element : element.target;
+    const color = target.id;
     
-    setSelectedButton(color);
+    setSelectedButton(target);
 
-    if (color.id != COLOR_MODES[1] && color.id != COLOR_MODES[2]) {
+    if (color != COLOR_MODES[1] && color != COLOR_MODES[2]) {
         colorMode = COLOR_MODES[0];
-        selectedColor = COLORS[color.id];
+        selectedColor = COLORS[color];
     } else {
-        colorMode = color.id;
+        colorMode = color;
         selectedColor = colorMode == COLOR_MODES[2] ? GRADIENT_START_COLOR : getRandomColor();
     }
 }
