@@ -7,6 +7,7 @@ const COLORS = {
     grey: getStylesheetVariable('grey')
 }
 
+const DRAWING_MODES = ['mouseover', 'click'];
 const COLOR_MODES = ['color_picker', 'random', 'gradient'];
 
 const DEFAULT_COLOR = COLORS['grey'];
@@ -19,11 +20,19 @@ const canvas = document.querySelector('.canvas');
 let currentCanvasSize = DEFAULT_CANVAS_SIZE;
 let selectedColor = DEFAULT_COLOR;
 let colorMode = COLOR_MODES[0];
+let drawingMode = DRAWING_MODES[0];
 
 setUpButtons();
 resetCanvas();
 
 function setUpButtons() {
+    const keyListeners = document.addEventListener('keydown', (e) => {
+        handleKeyPress(e.key);
+    });
+
+    const drawingModeButton = document.querySelector('#drawing-mode');
+    drawingModeButton.addEventListener('click', setDrawingMode);
+
     const sizeButton = document.querySelector('#canvas-size');
     sizeButton.addEventListener('click', setCanvasSize);
 
@@ -34,7 +43,8 @@ function setUpButtons() {
         let span = button.lastElementChild;
 
         if (span.className.indexOf('rainbow-wheel') === -1 && span.className.indexOf('bw-gradient') === -1)
-            span.style.backgroundColor = COLORS[button.textContent.toLowerCase()];
+        span.style.backgroundColor = COLORS[button.id];
+            //span.style.backgroundColor = COLORS[button.textContent.toLowerCase()];
     });
 
     const resetButton = document.querySelector('#reset');
@@ -42,16 +52,13 @@ function setUpButtons() {
 }
 
 function resetCanvas() {
-    selectedColor = DEFAULT_COLOR;
+    //selectedColor = DEFAULT_COLOR;
     colorMode = COLOR_MODES[0];
     canvas.innerHTML = "";
 
     drawCanvas(currentCanvasSize);
-
-    const gridSquares = document.querySelectorAll('.grid-square');
-    gridSquares.forEach((gridSquare) => {
-        gridSquare.addEventListener('mouseover', colorSquare);
-    });
+    setSquareListeners();
+    setInfo();
 }
 
 function drawCanvas(size) {
@@ -88,7 +95,10 @@ function getStylesheetVariable(name) {
 }
 
 function setSelectedColor(element) {
-    const color = element.target.textContent.toLowerCase();
+    const color = element.target.id;
+    //const color = element.target.textContent.toLowerCase();
+
+    setSelectedButton(element);
 
     if (color != COLOR_MODES[1] && color != COLOR_MODES[2]) {
         colorMode = COLOR_MODES[0];
@@ -137,4 +147,59 @@ function setCanvasSize() {
     }
     currentCanvasSize = answer;
     resetCanvas();
+}
+
+function setSquareListeners() {
+    const gridSquares = document.querySelectorAll('.grid-square');
+    gridSquares.forEach((gridSquare) => {
+        gridSquare.addEventListener(drawingMode, colorSquare);
+    });
+}
+
+function removeSquareListeners() {
+    const gridSquares = document.querySelectorAll('.grid-square');
+    gridSquares.forEach((gridSquare) => {
+        gridSquare.removeEventListener(drawingMode, colorSquare);
+    });
+}
+
+function setDrawingMode() {
+    removeSquareListeners();
+
+    if (drawingMode == DRAWING_MODES[0]) {
+        drawingMode = DRAWING_MODES[1];
+    } else {
+        drawingMode = DRAWING_MODES[0];
+    }
+
+    setSquareListeners();
+    setInfo();
+}
+
+function setInfo() {
+    const gridSizeElement = document.querySelector('#grid-size-info');
+    gridSizeElement.textContent = `Grid size: ${currentCanvasSize} x ${currentCanvasSize}`;
+
+    const drawingModeElement = document.querySelector('#drawing-mode-info');
+    drawingModeElement.textContent = `Drawing mode: ${capitalizeFirst(drawingMode)}`;
+}
+
+function capitalizeFirst(string) {
+    return string[0].toUpperCase() + string.substring(1).toLowerCase();
+}
+
+function setSelectedButton(element) {
+    const buttonElements = document.querySelectorAll('.color-button');
+    buttonElements.forEach((buttonElement) => {
+        buttonElement.classList.remove('selected');
+    });
+
+    element.target.classList.toggle('selected');
+}
+
+function handleKeyPress(key) {
+    console.log(key);
+    if (key.toUpperCase() == "M") {
+        setDrawingMode();
+    }
 }
