@@ -43,7 +43,7 @@ function setUpButtons() {
         let span = button.lastElementChild;
 
         if (span.className.indexOf('rainbow-wheel') === -1 && span.className.indexOf('bw-gradient') === -1)
-        span.style.backgroundColor = COLORS[button.id];
+            span.style.backgroundColor = COLORS[button.id];
     });
 
     const resetButton = document.querySelector('#reset');
@@ -92,15 +92,15 @@ function getStylesheetVariable(name) {
 }
 
 function setSelectedColor(element) {
-    const color = element.target.id;
+    const color = element.target == undefined ? element : element.target;
+    
+    setSelectedButton(color);
 
-    setSelectedButton(element);
-
-    if (color != COLOR_MODES[1] && color != COLOR_MODES[2]) {
+    if (color.id != COLOR_MODES[1] && color.id != COLOR_MODES[2]) {
         colorMode = COLOR_MODES[0];
-        selectedColor = COLORS[color];
+        selectedColor = COLORS[color.id];
     } else {
-        colorMode = color;
+        colorMode = color.id;
         selectedColor = colorMode == COLOR_MODES[2] ? GRADIENT_START_COLOR : getRandomColor();
     }
 }
@@ -184,17 +184,34 @@ function capitalizeFirst(string) {
     return string[0].toUpperCase() + string.substring(1).toLowerCase();
 }
 
-function setSelectedButton(element) {
+function setSelectedButton(target) {
     const buttonElements = document.querySelectorAll('.color-button');
     buttonElements.forEach((buttonElement) => {
         buttonElement.classList.remove('selected');
     });
 
-    element.target.classList.toggle('selected');
+    target.classList.toggle('selected');
+}
+
+const KEY_MAPPING = {
+    M: [setDrawingMode, null],
+    1: [setSelectedColor, "red"],
+    2: [setSelectedColor, "green"],
+    3: [setSelectedColor, "blue"],
+    4: [setSelectedColor, "black"],
+    5: [setSelectedColor, "white"],
+    Q: [setSelectedColor, "random"],
+    E: [setSelectedColor, "gradient"],
 }
 
 function handleKeyPress(key) {
-    if (key.toUpperCase() == "M") {
-        setDrawingMode();
+    const mapping = KEY_MAPPING[key.toUpperCase()];
+    if (mapping != undefined) {
+        if (mapping[1] == null) {
+            mapping[0]();
+        } else {
+            const button = document.querySelector(`#${mapping[1]}`);
+            mapping[0](button);
+        }
     }
 }
