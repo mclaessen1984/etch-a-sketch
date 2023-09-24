@@ -44,7 +44,6 @@ function setUpButtons() {
 
         if (span.className.indexOf('rainbow-wheel') === -1 && span.className.indexOf('bw-gradient') === -1)
         span.style.backgroundColor = COLORS[button.id];
-            //span.style.backgroundColor = COLORS[button.textContent.toLowerCase()];
     });
 
     const resetButton = document.querySelector('#reset');
@@ -52,8 +51,6 @@ function setUpButtons() {
 }
 
 function resetCanvas() {
-    //selectedColor = DEFAULT_COLOR;
-    colorMode = COLOR_MODES[0];
     canvas.innerHTML = "";
 
     drawCanvas(currentCanvasSize);
@@ -96,7 +93,6 @@ function getStylesheetVariable(name) {
 
 function setSelectedColor(element) {
     const color = element.target.id;
-    //const color = element.target.textContent.toLowerCase();
 
     setSelectedButton(element);
 
