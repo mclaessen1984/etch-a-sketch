@@ -1,3 +1,14 @@
+const KEY_MAPPING = {
+    M: function () { setDrawingMode() },
+    1: function () { setSelectedColor(getButtonElement("red")) },
+    2: function () { setSelectedColor(getButtonElement("green")) },
+    3: function () { setSelectedColor(getButtonElement("blue")) },
+    4: function () { setSelectedColor(getButtonElement("black")) },
+    5: function () { setSelectedColor(getButtonElement("white")) },
+    Q: function () { setSelectedColor(getButtonElement("random")) },
+    E: function () { setSelectedColor(getButtonElement("gradient")) },
+}
+
 const COLORS = {
     red: getStylesheetVariable('red'),
     green: getStylesheetVariable('green'),
@@ -94,7 +105,7 @@ function getStylesheetVariable(name) {
 function setSelectedColor(element) {
     const target = element.target == undefined ? element : element.target;
     const color = target.id;
-    
+
     setSelectedButton(target);
 
     if (color != COLOR_MODES[1] && color != COLOR_MODES[2]) {
@@ -194,25 +205,15 @@ function setSelectedButton(target) {
     target.classList.toggle('selected');
 }
 
-const KEY_MAPPING = {
-    M: [setDrawingMode, null],
-    1: [setSelectedColor, "red"],
-    2: [setSelectedColor, "green"],
-    3: [setSelectedColor, "blue"],
-    4: [setSelectedColor, "black"],
-    5: [setSelectedColor, "white"],
-    Q: [setSelectedColor, "random"],
-    E: [setSelectedColor, "gradient"],
-}
-
 function handleKeyPress(key) {
     const mapping = KEY_MAPPING[key.toUpperCase()];
+
     if (mapping != undefined) {
-        if (mapping[1] == null) {
-            mapping[0]();
-        } else {
-            const button = document.querySelector(`#${mapping[1]}`);
-            mapping[0](button);
-        }
+        mapping();
     }
+}
+
+function getButtonElement(id) {
+    console.log(id);
+    return document.querySelector(`#${id}`);
 }
