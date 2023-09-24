@@ -198,7 +198,6 @@ function setSelectedButton(element) {
 }
 
 function handleKeyPress(key) {
-    console.log(key);
     if (key.toUpperCase() == "M") {
         setDrawingMode();
     }
