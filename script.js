@@ -29,10 +29,7 @@ function setUpButtons() {
 
     const colorButtons = document.querySelectorAll('.color-button');
     colorButtons.forEach((button) => {
-        button.addEventListener('click', e => {
-            let buttonName = e.target.textContent.toLowerCase();
-            setSelectedColor(buttonName);
-        });
+        button.addEventListener('click', setSelectedColor);
 
         let span = button.lastElementChild;
 
@@ -53,9 +50,7 @@ function resetCanvas() {
 
     const gridSquares = document.querySelectorAll('.grid-square');
     gridSquares.forEach((gridSquare) => {
-        gridSquare.addEventListener('mouseover', e => {
-            colorSquare(e.target)
-        });
+        gridSquare.addEventListener('mouseover', colorSquare);
     });
 }
 
@@ -73,7 +68,8 @@ function drawCanvas(size) {
     }
 }
 
-function colorSquare(square) {
+function colorSquare(element) {
+    const square = element.target;
     square.style.backgroundColor = `${getSquareColor(square.style.backgroundColor)}`;
 }
 
@@ -91,8 +87,11 @@ function getStylesheetVariable(name) {
     return getComputedStyle(document.documentElement).getPropertyValue(`--${name}`);
 }
 
-function setSelectedColor(color) {
+function setSelectedColor(element) {
+    const color = element.target.textContent.toLowerCase();
+
     if (color != COLOR_MODES[1] && color != COLOR_MODES[2]) {
+        colorMode = COLOR_MODES[0];
         selectedColor = COLORS[color];
     } else {
         colorMode = color;
@@ -110,7 +109,6 @@ function getRandomColor() {
 
 function getGradientColor(currentColor) {
     let colorValues = currentColor.substring(4, currentColor.length - 1).split(',');
-    console.log(colorValues);
 
     if (colorValues == "") {
         return GRADIENT_START_COLOR;
