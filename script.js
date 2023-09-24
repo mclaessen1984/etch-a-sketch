@@ -7,7 +7,7 @@ const COLORS = {
     grey: getStylesheetVariable('grey')
 }
 
-const DRAWING_MODES = ['mouseover', 'click'];
+const DRAWING_MODES = ['mouseover', 'mousedown'];
 const COLOR_MODES = ['color_picker', 'random', 'gradient'];
 
 const DEFAULT_COLOR = COLORS['grey'];
